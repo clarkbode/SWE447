@@ -19,6 +19,7 @@ function Square(gl, vertexShaderId, fragmentShaderId) {
 	this.positions = {
 		values : new Float32Array([
 		    // Front face
+			// Does the order matter??
 			0.0, 0.0, 0.0, // Vertex 0
 			0.0, 1.0, 0.0, // Vertex 1
 			0.0, 1.0, 1.0, // Vertex 2
@@ -42,7 +43,7 @@ function Square(gl, vertexShaderId, fragmentShaderId) {
 		numComponents : 3 
 	};
     this.indices = {
-    values : new Uint16Array([ 0, 1, 3, 2 ])
+    values : new Uint16Array([ 0, 1, 2, 3, 4, 5, 6, 7 ]) //Updated this for cube. DOES THE ORDER MATTER??
     };
 	
 	// positions
