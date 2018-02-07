@@ -15,11 +15,11 @@ function Square(gl, vertexShaderId, fragmentShaderId) {
 	gl.useProgram(this.program);
 	this.count = 4;
 
-#The below has 8 vertices for the 8 corners of a cube
+//The below has 8 vertices for the 8 corners of a cube
 	this.positions = {
 		values : new Float32Array([
 		    // Front face
-		    0.0, 0.0, 0.0, // Vertex 0
+			0.0, 0.0, 0.0, // Vertex 0
 			0.0, 1.0, 0.0, // Vertex 1
 			0.0, 1.0, 1.0, // Vertex 2
 			0.0, 0.0, 1.0, // Vertex 3
