@@ -107,5 +107,11 @@ function Cube( vertexShaderId, fragmentShaderId ) {
 
         // Draw the cube's base
         gl.drawElements( gl.TRIANGLES, this.indices.count, gl.UNSIGNED_SHORT, 0 );
+        
+        //extra stuff?
+        var start = 0;
+        var count = this.count;
+        
+        gl.drawElements(gl.TRIANGLES, this.indices.values.length, gl.UNSIGNED_SHORT, 0);
     }
 };
