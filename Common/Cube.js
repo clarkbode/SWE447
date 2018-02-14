@@ -21,40 +21,40 @@ function Cube( vertexShaderId, fragmentShaderId ) {
            // Add your list vertex positions here
             
   // Front face
-  -1.0, -1.0,  1.0,
-   1.0, -1.0,  1.0,
+  0.0, 0.0,  1.0,
+   1.0, 0.0,  1.0,
    1.0,  1.0,  1.0,
-  -1.0,  1.0,  1.0,
+  0.0,  1.0,  1.0,
   
   // Back face
-  -1.0, -1.0, -1.0,
-  -1.0,  1.0, -1.0,
-   1.0,  1.0, -1.0,
-   1.0, -1.0, -1.0,
+  0.0, 0.0, 0.0,
+  0.0,  1.0, 0.0,
+   1.0,  1.0, 0.0,
+   1.0, 0.0, 0.0,
   
   // Top face
-  -1.0,  1.0, -1.0,
-  -1.0,  1.0,  1.0,
+  0.0,  1.0, 0.0,
+  0.0,  1.0,  1.0,
    1.0,  1.0,  1.0,
-   1.0,  1.0, -1.0,
+   1.0,  1.0, 0.0,
   
   // Bottom face
-  -1.0, -1.0, -1.0,
-   1.0, -1.0, -1.0,
-   1.0, -1.0,  1.0,
-  -1.0, -1.0,  1.0,
+  0.0, 0.0, 0.0,
+   1.0, 0.0, 0.0,
+   1.0, 0.0,  1.0,
+  0.0, 0.0,  1.0,
   
   // Right face
-   1.0, -1.0, -1.0,
-   1.0,  1.0, -1.0,
+   1.0, 0.0, 0.0,
+   1.0,  1.0, 0.0,
    1.0,  1.0,  1.0,
-   1.0, -1.0,  1.0,
+   1.0, 0.0,  1.0,
   
   // Left face
-  -1.0, -1.0, -1.0,
-  -1.0, -1.0,  1.0,
-  -1.0,  1.0,  1.0,
-  -1.0,  1.0, -1.0,
+  0.0, 0.0, 0.0,
+  0.0, 0.0,  1.0,
+  0.0,  1.0,  1.0,
+  0.0,  1.0, 0.0,
             ]),
         numComponents : 3
     };
@@ -103,9 +103,9 @@ function Cube( vertexShaderId, fragmentShaderId ) {
         gl.drawElements( gl.TRIANGLES, this.indices.count, gl.UNSIGNED_SHORT, 0 );
         
         //extra stuff?
-        var start = 0;
-        var count = this.count;
+        //var start = 0;
+        //var count = this.count;
         
-        gl.drawElements(gl.TRIANGLES, this.indices.values.length, gl.UNSIGNED_SHORT, 0);
+        //gl.drawElements(gl.TRIANGLES, this.indices.values.length, gl.UNSIGNED_SHORT, 0);
     }
 };
