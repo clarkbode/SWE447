@@ -18,9 +18,9 @@ var gl;
 
 var Planets = {
   Sun : undefined,
-   Mercury : undefined,
+  // Mercury : undefined,
   // Venus : undefined,
-  // Earth : undefined,
+   Earth : undefined,
   // Moon : undefined,
   // Mars : undefined,
   // Jupiter : undefined,
@@ -146,7 +146,7 @@ function render() {
   //
   //  Add your code for more planets here!
   //
-  name = "Mercury";
+  name = "Earth";
   planet = Planets[name];
   data = SolarSystem[name];
   window.requestAnimationFrame(render);
