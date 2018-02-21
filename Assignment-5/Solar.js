@@ -149,7 +149,7 @@ function render() {
   name = "Earth";
   planet = Planets[name];
   data = SolarSystem[name];
-  window.requestAnimationFrame(render);
+  
   
   
   ms.push();
@@ -166,7 +166,7 @@ function render() {
   ms.pop();
   
 
-  
+  window.requestAnimationFrame(render);
 }
 
 //---------------------------------------------------------------------------
