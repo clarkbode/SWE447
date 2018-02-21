@@ -154,7 +154,7 @@ function render() {
   
   ms.push();
   
-  ms.rotate((360/data.year)* time, [0,0,1];
+  ms.rotate((360/data.year)* time, [0,0,1]);
   ms.translate(data.distance, 0, 0);
   
   ms.scale(data.radius);
