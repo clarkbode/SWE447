@@ -151,6 +151,7 @@ function render() {
   data = SolarSystem[name];
   window.requestAnimationFrame(render);
   
+  
   ms.push();
   ms.scale(data.radius);
   gl.useProgram(planet.program);
