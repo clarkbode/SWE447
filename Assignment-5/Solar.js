@@ -94,7 +94,8 @@ function init() {
 //
 
 function render() {
-  time += timeDelta;
+  //time += timeDelta;
+  var time = (new Date()).getTime() * 0.0002;
 
   var ms = new MatrixStack();
 
@@ -154,7 +155,7 @@ function render() {
   
   ms.push();
   
-  ms.rotate((10/data.year)* time, [0, 0, 1]);
+  ms.rotate((360/data.year)* time, [0, 0, 1]);
   ms.translate(data.distance, 0, 0);
   
   ms.scale(data.radius);
