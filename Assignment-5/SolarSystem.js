@@ -19,8 +19,8 @@ var SolarSystem = {
   },
   Earth : {
     radius : 1,
-    distance : 10,
-    year : 10,
+    distance : 1*10,
+    year : 1,
     color : [ 0.0, 0.0, 1.0, 1.0 ]
   },
   Moon : {
