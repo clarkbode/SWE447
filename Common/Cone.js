@@ -75,6 +75,14 @@ function Cone( gl, numSides, vertexShaderId, fragmentShaderId ) {
     this.positions.attributeLoc = gl.getAttribLocation( this.program, "vPosition" );
     gl.enableVertexAttribArray( this.positions.attributeLoc );
 
+	//
+	
+	MVLoc = gl.getUniformLocation( this.program, "MV" );
+
+    this.MV = undefined;
+	
+	//
+	
     this.render = function () {
         gl.useProgram( this.program );
 
@@ -84,6 +92,9 @@ function Cone( gl, numSides, vertexShaderId, fragmentShaderId ) {
  
         gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, this.indices.buffer );
 
+		//
+		gl.uniformMatrix4fv( MVLoc, gl.FALSE, flatten(this.MV) );
+		
         // Draw the cone's base
         //
         gl.drawElements( gl.POINTS, this.indices.count, gl.UNSIGNED_SHORT, 0 );
