@@ -7,44 +7,34 @@
   <script src="../Common/MV.js"></script>
   <script src="../Common/MatrixStack.js"></script>  
   <script src="../Common/Sphere.js"></script>
-<script src="mars.js"></script>
+  <script src="SolarSystem.js"></script>
+  <script src="Solar.js"></script>
 
   <script type="x-shader/x-vertex" id="Sphere-vertex-shader">
   attribute vec4  vPosition;
 
-  //uniform mat4  MV;
-  //uniform mat4  P;
-  
-  attribute vec4 vColor;
-  attribute vec2 vTexCoord;
-  
-  varying vec4 fColor;
-  varying vec2 fTexCoord;
+  uniform mat4  MV;
+  uniform mat4  P;
 
   void main()
   {
-	fColor = vColor;
-	fTexCoord = vTexCoord;
-    gl_Position = vPosition;
+    gl_Position = P * MV * vPosition;
   }
   </script>
 
   <script type="x-shader/x-fragment" id="Sphere-fragment-shader">
   precision highp float;
 
-  varying vec4  fColor;
-  varying vec2 fTexCoord;
-  
-  uniform sampler2D tex;
-  
+  uniform vec4  color;
+
   void main()
   {
-    gl_FragColor = texture(tex, fTexCoord);
+    gl_FragColor = color;
   }
   </script>
 </head>
 
 <body>
-<canvas id="webgl-canvas" width="512" height="512" style="background-color: #0000FF"></canvas>
+  <canvas id="webgl-canvas" width="800" height="800"></canvas>
 </body>
 </html>

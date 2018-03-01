@@ -18,7 +18,7 @@ var gl;
 
 var Planets = {
    Sun : undefined,
-   /*Mercury : undefined,
+  /* Mercury : undefined,
    Venus : undefined,
    Earth : undefined,
    Moon : undefined,
@@ -88,29 +88,6 @@ function init() {
   window.requestAnimationFrame(render);  
 }
 
-// texture initalization (taken from week 11 presentation on texture mapping
-
-function initTexture()
-{
-	texture = gl.createTexture();
-	texImage = new Image();
-	texImage.onload = function ()
-	{ loadTexture(image, texture); };
-	texImage.src = "file:///D:\GitHub Respositories\SWE447\Midterm_Sphere\mars.jpg" //location of the texture
-
-}
-
-// loading texture
-function loadTexture(image, texture)
-{
-	gl.bindTexture(gl.TEXTURE_2D, texture);
-	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAGE_FILTER, gl.LINEAR);
-	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST);
-	gl.generateMipmap(gl.TEXTURE_2D);
-	gl.bindTexture(gl.TEXTURE_2D, null);
-}
-
 //---------------------------------------------------------------------------
 //
 //  render() - render the scene
@@ -168,6 +145,7 @@ function render() {
   ms.pop();
 
  
+  
   window.requestAnimationFrame(render);
 }
 
