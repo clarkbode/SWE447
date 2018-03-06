@@ -1,33 +1,27 @@
-//NOTE TO TEACHER:
-// 	This was WAY harder than it needed to be - and most of this was not something we covered in our 
-// presentations. I did my best, and had to cobble some ideas together from other sources, but this 
-// is what I have.
-var cone = null;
+var cone = null; //base stuff
 var gl = null;
 
-var canvas = undefined;
+var canvas = undefined; //canvas
 
-var near = 0.1;     //these control distance
-var far = 10.0;     
+var near = 0.3;     //anticlip
+var far = 10.0;    
 
 // transforms
 var V = undefined;
 var M = undefined;
-var S = undefined;
 var angle = 0.0;
 var dAngle = 0.0; 
+var S = undefined;
 
-var mouseDown = false;
+var mouseDown = false; //mouse handling
 var lastMouseX = null;
 var lastMouseY = null;
 
-var zvalue = -0.5*(near + far);
+var zvalue = -0.5*(near + far);//hard values
 var offset = [ 0.0,  0.0, 0.0 ];
-
 var rotationAxis = undefined;
 var xAxis = [1, 0, 0];
 var yAxis = [0, 1, 0];
-
 var speed = 1;
 var stopRot = 0;
 
@@ -41,25 +35,8 @@ function init()
         alert("Unable to setup WebGL");
         return;
     }
-   
-    //these are the interactable elements and control what happens when you click them
-    document.getElementById("xButton").onclick = function() 
-	{
-        rotationAxis = xAxis;
-        
-    }
     
-    document.getElementById("yButton").onclick = function() 
-	{
-        rotationAxis = yAxis;
-    }
-	
-	    document.onmouseup = function handleMouseUp(event) 
-		{
-        mouseDown = false;
-        if (stopRot) dAngle = 0.0;
-        return;
-		}
+
     
     canvas.onmousedown = function handleMouseDown(event) 
 	{
@@ -68,6 +45,12 @@ function init()
         lastMouseY = event.clientY;
     }
     
+    document.onmouseup = function handleMouseUp(event) 
+	{
+        mouseDown = false;
+        if (stopRot) dAngle = 0.0;
+        return;
+    }
     
     document.onmousemove = function handleMouseMove(event) 
 	{
@@ -76,7 +59,6 @@ function init()
             if(stopRot) dAngle = 0.0;
             return;
         }
-		
         var newX = event.clientX;
         var newY = event.clientY;
         
@@ -87,7 +69,7 @@ function init()
         lastMouseY = newY;
     }
     
-   
+
     
     gl.clearColor( 0.0, 0.0, 0.0, 1.0 );
     gl.enable(gl.DEPTH_TEST);
@@ -98,18 +80,23 @@ function init()
     window.requestAnimationFrame(render);
 }
 
-function render() //I basically had to redo this to make the rotation work. the dot-based cone refused.
+function render() 
 {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-	
     V = translate(0.0, 0.0, zvalue);
     angle += dAngle ;
+    //offset = [ -3.0,  3.0, 0.0 ];
+    var axis = undefined; //[ 1.0, 1.0, 1.0 ];
+    if (rotationAxis != undefined) 
+	{
+		axis = rotationAxis;
+	}
+    else 
+	{
+		axis = [ 1.0, 1.0, 1.0 ];
+	}
     
-    var axis = undefined; //Apparently we have to start with this undefined and can't define it here.
-    if (rotationAxis != undefined) axis = rotationAxis;
-    else axis = [ 1.0, 1.0, 1.0 ]; //NOW I get to define it...
-    
-    ms = new MatrixStack(); //all the things
+    ms = new MatrixStack();
     ms.push();
     ms.load(V);
     ms.translate(offset);
@@ -122,17 +109,19 @@ function render() //I basically had to redo this to make the rotation work. the 
     window.requestAnimationFrame(render);
 }
 
-function resize() {
+function resize() 
+{
     var width = canvas.clientWidth,
     height = canvas.clientHeight;
-	var fovy = 120.0; // degrees
     gl.viewport(0, 0, width, height);
+    var fovy = 120.0; // degrees
     aspect = width/height;
     cone.P = perspective(fovy, aspect, near, far);
 }
 
-function degToRad(degrees) {
-    return degrees * Math.PI / 180; //apparently you have to do this. not sure why. Ask teacher to review.
+function degToRad(degrees) 
+{
+    return degrees * Math.PI / 180;
 }
 
 window.onload = init;
