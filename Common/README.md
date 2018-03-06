@@ -1,3 +1,1 @@
-# Common
-
-This directory contains common files included in each WebGL application.
+Intended code for complex light shader algorithm

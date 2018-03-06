@@ -172,5 +172,3 @@ window.cancelAnimFrame = (function() {
          window.msCancelAnimationFrame ||
          window.clearTimeout;
 })();
-
-
