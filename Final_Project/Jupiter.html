@@ -1,45 +1,89 @@
-<!DOCTYPE html>
-<html>
+
+<!doctype html>
 <head>
-  <meta charset="UTF-8">
-  <script src="../Common/webgl-utils.js"></script>
-  <script src="../Common/initShaders.js"></script>
-  <script src="../Common/MV.js"></script>
-  <script src="../Common/MatrixStack.js"></script>  
-  <script src="../Common/Sphere.js"></script>
-  
-  <script src="../Common/three.js"></script>
-  <script src="../Common/three.min.js"></script>
-  <script src="../Common/three.module.js"></script>
-  <script src="SolarSystem.js"></script>
-  <script src="Solar.js"></script>
-  
-
-  <script type="x-shader/x-vertex" id="Sphere-vertex-shader">
-  attribute vec4  vPosition;
-
-  uniform mat4  MV;
-  uniform mat4  P;
-
-  void main()
-  {
-    gl_Position = P * MV * vPosition;
-  }
-  </script>
-
-  <script type="x-shader/x-fragment" id="Sphere-fragment-shader">
-  precision highp float;
-
-  uniform vec4  color;
-
-  void main()
-  {
-    gl_FragColor = color;
-  }
-  </script>
+  <meta charset="utf-8">
+  <meta name="author" content="Clark Bode" />
+  <meta name="viewport" content="width=device-width">
+  <title></title>
+  <style>
+    html, body {
+      padding: 0;
+      margin: 0;
+    }
+  </style>
 </head>
-
 <body>
-  <canvas id="webgl-canvas" width="800" height="800"></canvas>
+  <div id="container"></div>
+  <script src="Common/three.min.js"></script>
+  <script>
+	//set the scene size
+	const sceneWIDTH = 400;
+	const sceneHEIGHT = 300;
+	
+	//set camera attribs
+	const VIEW_ANGLE = 45;
+	const ASPECT = sceneWIDTH / sceneHEIGHT;
+	const NEAR = 0.1;
+	const FAR = 10000;
+	
+	// Get the DOM element to attach to
+	const container = document.querySelector('#container');
+	
+	// create a WebGL renderer, camera, and scene
+	const renderer = new THREE.webGlRenderer();
+	const camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
+	
+	const scene = new THREE.Scene();
+	
+	//add the camera to scene
+	scene.add(camera);
+	
+	//start renderer
+	renderer.setSize(sceneWIDTH, sceneHEIGHT);
+	
+	//attach the DOM elemet from the renderer
+	container.appendChild(renderer.domElement);
+	
+	//set up jupiter's vars
+	const jupRADIUS = 50;
+	const jupSEGMENTS = 16;
+	const jupRINGS = 16;
+	
+	//Create a new mesh with sphere geometry
+	const jupiter = new THREE.Mesh( 
+	new THREE.SphereGeometry(jupRADIUS, jupSEGMENTS, jupRINGS), 
+		sphereMaterial);
+	//Move the it back so it's visible
+	jupiter.position.z = -300;
+	
+	//add jupiter to scene
+	scene.add(jupiter);
+	
+	//create jupiter's material (MIGHT NEED TO REPLACE THIS LATER WITH THE JUPITER TEXTURE
+	//STILL LEARNING HOW THREE.JS WORKS
+	const jupMaterial = new THREE.MeshLambertMaterial( { color: 0xCC0000 } );
+	
+	//create some light
+	const pointLight = new THREE.PointLight(0xFFFFF);
+	
+	//set light position
+	pointLight.position.x = 10;
+	pointLight.position.y = 50;
+	pointLight.position.z = 130;
+	
+	//add to the scene
+	scene.add(pointLight);
+	
+	    function update () {
+      // Draw!
+      renderer.render(scene, camera);
+
+      // Schedule the next frame.
+      requestAnimationFrame(update);
+    }
+
+    // Schedule the first frame.
+    requestAnimationFrame(update);
+  </script>
 </body>
 </html>
