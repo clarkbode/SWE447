@@ -18,6 +18,7 @@
   <script>
   //TODO: Figure out how to apply a texture to the object, 
   //add rotation, more objects, rotation for those objects
+  // IMPORTANT NOTE: TEXTURES ONLY WORK IN FIREFOX BECAUSE GOOGLE IS AN ASS.
   
 	//set the scene size
 	const sceneWIDTH = window.innerWidth;;
@@ -32,9 +33,13 @@
 	// Get the DOM element to attach to
 	const container = document.querySelector('#container');
 	
-	// create a WebGL renderer, camera, and scene
+	// create a WebGL renderer, texture, camera, and scene
 	const renderer = new THREE.WebGLRenderer();
 	const camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
+	const jupTexture = new THREE.TextureLoader().load( "jupiter.png" ); // texture name is placeholder
+	/*const jupTexture = new THREE.ImageUtils.loadTexture('crate.gif', {}, function() {
+    renderer.render(scene);}) //The syntax of running a function inside the const declaration is wierd to me. Supposedly it makes sure the texture is loaded before the scene is drawn?
+	// source: https://stackoverflow.com/questions/7919516/using-textures-in-three-js */
 	
 	const scene = new THREE.Scene();
 	
@@ -52,13 +57,16 @@
 	const jupSEGMENTS = 16;
 	const jupRINGS = 16;
 	
+	//create jupiter's material (uses the jupTexture when creating the material and carries it wherever it goes)
+	const jupMaterial = new THREE.MeshBasicMaterial( { map: jupTexture } );
+	
 	//Create a new mesh with sphere geometry
 	const jupiter = new THREE.Mesh(
 
       new THREE.SphereGeometry(
         jupRADIUS,
         jupSEGMENTS,
-        jupRINGS) //Material went here. Maybe texture goes here?
+        jupRINGS), jupMaterial//Material goes here, but is created WITH the texture.
 		); 
 	//Move the it back so it's visible
 	jupiter.position.z = -300;
@@ -66,9 +74,7 @@
 	//add jupiter to scene
 	scene.add(jupiter);
 	
-	//create jupiter's material (MIGHT NEED TO REPLACE THIS LATER WITH THE JUPITER TEXTURE
-	//STILL LEARNING HOW THREE.JS WORKS
-	const jupMaterial = new THREE.MeshLambertMaterial( { color: 0xCC0000 } );
+
 	
 	//create some light
 	const pointLight = new THREE.PointLight(0xFFFFF);
@@ -81,12 +87,16 @@
 	//add to the scene
 	scene.add(pointLight);
 	
-	    function update () {
+	function update () 
+	{
       // Draw!
       renderer.render(scene, camera);
 
       // Schedule the next frame.
       requestAnimationFrame(update);
+	  
+	  //rotate jupiter by a certain value (currently placeholder)
+	  //jupiter.rotation.x = placeholder;
     }
 
     // Schedule the first frame.
