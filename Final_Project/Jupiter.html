@@ -14,11 +14,14 @@
 </head>
 <body>
   <div id="container"></div>
-  <script src="Common/three.min.js"></script>
+  <script src="../Common/three.min.js"></script>
   <script>
+  //TODO: Figure out how to apply a texture to the object, 
+  //add rotation, more objects, rotation for those objects
+  
 	//set the scene size
-	const sceneWIDTH = 400;
-	const sceneHEIGHT = 300;
+	const sceneWIDTH = window.innerWidth;;
+	const sceneHEIGHT = window.innerHeight;
 	
 	//set camera attribs
 	const VIEW_ANGLE = 45;
@@ -30,7 +33,7 @@
 	const container = document.querySelector('#container');
 	
 	// create a WebGL renderer, camera, and scene
-	const renderer = new THREE.webGlRenderer();
+	const renderer = new THREE.WebGLRenderer();
 	const camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
 	
 	const scene = new THREE.Scene();
@@ -50,9 +53,13 @@
 	const jupRINGS = 16;
 	
 	//Create a new mesh with sphere geometry
-	const jupiter = new THREE.Mesh( 
-	new THREE.SphereGeometry(jupRADIUS, jupSEGMENTS, jupRINGS), 
-		sphereMaterial);
+	const jupiter = new THREE.Mesh(
+
+      new THREE.SphereGeometry(
+        jupRADIUS,
+        jupSEGMENTS,
+        jupRINGS) //Material went here. Maybe texture goes here?
+		); 
 	//Move the it back so it's visible
 	jupiter.position.z = -300;
 	
