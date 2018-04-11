@@ -33,14 +33,18 @@
 	// Get the DOM element to attach to
 	const container = document.querySelector('#container');
 	
-	// create a WebGL renderer, texture, camera, and scene
+	// create a WebGL renderer, camera
 	const renderer = new THREE.WebGLRenderer();
 	const camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
-	const jupTexture = new THREE.TextureLoader().load( "jupiter.png" ); // texture name is placeholder
-	/*const jupTexture = new THREE.ImageUtils.loadTexture('crate.gif', {}, function() {
-    renderer.render(scene);}) //The syntax of running a function inside the const declaration is wierd to me. Supposedly it makes sure the texture is loaded before the scene is drawn?
-	// source: https://stackoverflow.com/questions/7919516/using-textures-in-three-js */
 	
+	// create textures
+	const jupTexture = new THREE.TextureLoader().load( "jupiter.png" ); // texture name is placeholder
+	const m1Texture = new THREE.TextureLoader().load("io.jpg");
+	/*const m2Texture = new THREE.TextureLoader().load("europa.jpg"); //uncomment these as you add moons
+	const m3Texture = new THREE.TextureLoader().load("ganymede.jpg");
+	const m4Texture = new THREE.TextureLoader().load("callisto.jpg");
+	*/
+	// create scene
 	const scene = new THREE.Scene();
 	
 	//add the camera to scene
@@ -52,15 +56,25 @@
 	//attach the DOM elemet from the renderer
 	container.appendChild(renderer.domElement);
 	
-	//set up jupiter's vars
-	const jupRADIUS = 50;
-	const jupSEGMENTS = 16;
-	const jupRINGS = 16;
+	//set up objects' vars
+	// Jupiter
+	const jupRADIUS = 200;
+	const jupSEGMENTS = 32;
+	const jupRINGS = 32;
+	
+	// moon 1
+	const m1RADIUS = 6;
+	const m1SEGMENTS = 16;
+	const m1RINGS = 16;
 	
 	//create jupiter's material (uses the jupTexture when creating the material and carries it wherever it goes)
 	const jupMaterial = new THREE.MeshBasicMaterial( { map: jupTexture } );
 	
-	//Create a new mesh with sphere geometry
+	//create moon 1's material
+	const m1Material = new THREE.MeshBasicMaterial( { map: m1Texture } );
+	
+	//Create meshes with sphere geometry
+	//Jupiter
 	const jupiter = new THREE.Mesh(
 
       new THREE.SphereGeometry(
@@ -68,12 +82,30 @@
         jupSEGMENTS,
         jupRINGS), jupMaterial//Material goes here, but is created WITH the texture.
 		); 
-	//Move the it back so it's visible
-	jupiter.position.z = -300;
+		
+	//Moon 1	
+	const moon1 = new THREE.Mesh(
 	
-	//add jupiter to scene
+	  new THREE.SphereGeometry(
+		m1RADIUS,
+		m1SEGMENTS,
+		m1RINGS), m1Material     //commented out because I don't have a texture yet. uncomment once you get a texture!
+		);
+	//Move the object into the desired place
+	//jupiter
+	jupiter.position.z = -400;
+	
+	//moon1
+	moon1.position.z = -200;
+	//moon1.position.x = 300;
+	
+	//add objects to scene
 	scene.add(jupiter);
-	
+	scene.add(moon1);
+	/*scene.add(moon2);
+	scene.add(moon3);
+	scene.add(moon4);
+	*/
 
 	
 	//create some light
@@ -95,8 +127,17 @@
       // Schedule the next frame.
       requestAnimationFrame(update);
 	  
-	  //rotate jupiter by a certain value (currently placeholder)
-	  //jupiter.rotation.x = placeholder;
+	  //rotate objects (Is there a more performance-efficient way of doing this?)
+	  jupiter.rotateY(.00015);
+	  moon1.rotateY(.005);
+	  
+	  //Orbits (method taken from StackOverflow https://stackoverflow.com/questions/42418958/rotate-an-object-around-an-orbit)
+	  /*date = Date.now() * 0.0001;
+		p1.position.set(
+		Math.cos(date) * orbitRadius,
+		0,
+		Math.sin(date) * orbitRadius
+		);*/
     }
 
     // Schedule the first frame.
