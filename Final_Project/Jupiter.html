@@ -49,6 +49,7 @@
 	
 	//add the camera to scene
 	scene.add(camera);
+	camera.position.z = 800;
 	
 	//start renderer
 	renderer.setSize(sceneWIDTH, sceneHEIGHT);
@@ -93,11 +94,11 @@
 		);
 	//Move the object into the desired place
 	//jupiter
-	jupiter.position.z = -400;
+	//jupiter.position.z = -400;
 	
 	//moon1
 	//moon1.position.z = -200;
-	moon1.translateZ(-400);
+	//moon1.translateZ(-400);
 	var radius = 210;
 	var moon1Rotate = 0; //this gets incremented in update()
 	
@@ -134,11 +135,13 @@
 	  //rotate objects (Is there a more performance-efficient way of doing this?)
 	  //jupiter.rotateY(.00015);
 	  //moon1.rotateY(.005);
-	  moon1Rotate += 0.001;
+	  moon1Rotate += 0.01;
 	  
 	  //moon1.translate((Math.cos(moon1Rotate % 360) * radius), 0, (Math.sin(moon1Rotate % 360) * radius));
 	  moon1.translateX(Math.cos(moon1Rotate % (Math.PI * 2)) * radius);
-	  moon1.translateZ(Math.sin((moon1Rotate % (Math.PI * 2)) * radius));
+	  moon1.translateY(Math.sin((moon1Rotate % (Math.PI * 2)) * radius));
+	  
+	 // moon1.translateZ(-400);
 	  
 	  //Orbits (method taken from StackOverflow https://stackoverflow.com/questions/42418958/rotate-an-object-around-an-orbit)
 	  /*date = Date.now() * 0.0001;
