@@ -25,10 +25,10 @@
 	const sceneHEIGHT = window.innerHeight;
 	
 	//set camera attribs
-	const VIEW_ANGLE = 45;
+	const VIEW_ANGLE = 100;
 	const ASPECT = sceneWIDTH / sceneHEIGHT;
 	const NEAR = 0.1;
-	const FAR = 10000;
+	const FAR = 100000;
 	
 	// Get the DOM element to attach to
 	const container = document.querySelector('#container');
@@ -63,7 +63,7 @@
 	const jupRINGS = 32;
 	
 	// moon 1
-	const m1RADIUS = 6;
+	const m1RADIUS = 50;
 	const m1SEGMENTS = 16;
 	const m1RINGS = 16;
 	
@@ -96,8 +96,10 @@
 	jupiter.position.z = -400;
 	
 	//moon1
-	moon1.position.z = -200;
-	//moon1.position.x = 300;
+	//moon1.position.z = -200;
+	moon1.translateZ(-400);
+	var radius = 210;
+	var moon1Rotate = 0; //this gets incremented in update()
 	
 	//add objects to scene
 	scene.add(jupiter);
@@ -119,6 +121,8 @@
 	//add to the scene
 	scene.add(pointLight);
 	
+	
+	
 	function update () 
 	{
       // Draw!
@@ -128,8 +132,13 @@
       requestAnimationFrame(update);
 	  
 	  //rotate objects (Is there a more performance-efficient way of doing this?)
-	  jupiter.rotateY(.00015);
-	  moon1.rotateY(.005);
+	  //jupiter.rotateY(.00015);
+	  //moon1.rotateY(.005);
+	  moon1Rotate += 0.001;
+	  
+	  //moon1.translate((Math.cos(moon1Rotate % 360) * radius), 0, (Math.sin(moon1Rotate % 360) * radius));
+	  moon1.translateX(Math.cos(moon1Rotate % (Math.PI * 2)) * radius);
+	  moon1.translateZ(Math.sin((moon1Rotate % (Math.PI * 2)) * radius));
 	  
 	  //Orbits (method taken from StackOverflow https://stackoverflow.com/questions/42418958/rotate-an-object-around-an-orbit)
 	  /*date = Date.now() * 0.0001;
@@ -138,6 +147,9 @@
 		0,
 		Math.sin(date) * orbitRadius
 		);*/
+		
+		//console.log(moon1.translateX);
+		//console.log(moon1.translateZ);
     }
 
     // Schedule the first frame.
