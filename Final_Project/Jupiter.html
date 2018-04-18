@@ -212,6 +212,10 @@
 	  moon4Rotate += 0.01; //moon1Rotate is used for orbit calculations
 	  
 	  //make the moons orbit Jupiter
+	  /* Dean suggests trying this code instead of what I have to adjust the orbital angles:
+	  moon1.position = new THREE.Vector3( getCircleXLoc(moon1Rotate, m1OrbitRadius, 0), 0, getCircleYLoc(moon1Rotate, m1OrbitRadius, 0) );
+		moon1.position.applyEuler( new THREE.Euler( 10, 20, 30, 'XYZ' ) );
+		*/
 	  moon1.position.x = getCircleXLoc(moon1Rotate, m1OrbitRadius, 0);
 	  moon1.position.z = getCircleYLoc(moon1Rotate, m1OrbitRadius, 0);
 	  
