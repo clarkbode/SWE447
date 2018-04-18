@@ -25,7 +25,7 @@
 	const sceneHEIGHT = window.innerHeight;
 	
 	//set camera attribs
-	const VIEW_ANGLE = 100;
+	const VIEW_ANGLE = 40;
 	const ASPECT = sceneWIDTH / sceneHEIGHT;
 	const NEAR = 0.1;
 	const FAR = 100000;
@@ -200,13 +200,13 @@
 	  //rotate objects (Is there a more performance-efficient way of doing this?)
 	  jupiter.rotateY(.00015);
 	  moon1.rotateY(.005); //this actually causes the moon itself to rotate
-	  moon1Rotate += 0.01; //moon1Rotate is used for orbit calculations
+	  moon1Rotate += 0.02; //moon1Rotate is used for orbit calculations. Adjust this number to increase/decrease orbit speeds
 	  
 	  moon2.rotateY(.005); //this actually causes the moon itself to rotate
-	  moon2Rotate += 0.01; //moon1Rotate is used for orbit calculations
+	  moon2Rotate += 0.016; //moon1Rotate is used for orbit calculations
 	  
 	  moon3.rotateY(.005); //this actually causes the moon itself to rotate
-	  moon3Rotate += 0.01; //moon1Rotate is used for orbit calculations
+	  moon3Rotate += 0.012; //moon1Rotate is used for orbit calculations
 	  
 	  moon4.rotateY(.005); //this actually causes the moon itself to rotate
 	  moon4Rotate += 0.01; //moon1Rotate is used for orbit calculations
