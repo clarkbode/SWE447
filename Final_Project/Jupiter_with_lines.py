@@ -1,0 +1,266 @@
+
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Clark Bode" />
+  <meta name="viewport" content="width=device-width">
+  <title></title>
+  <style>
+    html, body {
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+  <script src="../Common/three.min.js"></script>
+  <script>
+  //TODO: Figure out how to apply a texture to the object, 
+  //add rotation, more objects, rotation for those objects
+  // IMPORTANT NOTE: TEXTURES ONLY WORK IN FIREFOX BECAUSE GOOGLE IS AN ASS.
+  
+	//set the scene size
+	const sceneWIDTH = window.innerWidth;;
+	const sceneHEIGHT = window.innerHeight;
+	
+	//set camera attribs
+	const VIEW_ANGLE = 40;
+	const ASPECT = sceneWIDTH / sceneHEIGHT;
+	const NEAR = 0.1;
+	const FAR = 100000;
+	
+	// Get the DOM element to attach to
+	const container = document.querySelector('#container');
+	
+	// create a WebGL renderer, camera
+	const renderer = new THREE.WebGLRenderer();
+	const camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
+	
+	// create textures
+	const jupTexture = new THREE.TextureLoader().load( "jupiter.png" ); // texture name is placeholder
+	const m1Texture = new THREE.TextureLoader().load("io.jpg");
+	const m2Texture = new THREE.TextureLoader().load("europa.jpg"); 
+	const m3Texture = new THREE.TextureLoader().load("ganymede.jpg");
+	const m4Texture = new THREE.TextureLoader().load("callisto.jpg");
+	
+	// create scene
+	const scene = new THREE.Scene();
+	
+	//add the camera to scene
+	scene.add(camera);
+	camera.position.z = 600;
+	
+	//start renderer
+	renderer.setSize(sceneWIDTH, sceneHEIGHT);
+	
+	//attach the DOM elemet from the renderer
+	container.appendChild(renderer.domElement);
+	
+	//set up objects' vars
+	// Jupiter
+	const jupRADIUS = 200;
+	const jupSEGMENTS = 32;
+	const jupRINGS = 32;
+	
+	// moon 1
+	const m1RADIUS = 6;
+	const m1SEGMENTS = 16;
+	const m1RINGS = 16;
+	
+	var m1OrbitRadius = 250;
+	var moon1Rotate = 0; //this gets incremented in update()
+	
+	// moon 2
+	const m2RADIUS = 6;
+	const m2SEGMENTS = 16;
+	const m2RINGS = 16;
+	
+	var m2OrbitRadius = 270;
+	var moon2Rotate = 0; //this gets incremented in update()
+	
+	// moon 3
+	const m3RADIUS = 6;
+	const m3SEGMENTS = 16;
+	const m3RINGS = 16;
+	
+	var m3OrbitRadius = 290;
+	var moon3Rotate = 0; //this gets incremented in update()
+	
+	// moon 4
+	const m4RADIUS = 6;
+	const m4SEGMENTS = 16;
+	const m4RINGS = 16;
+	
+	var m4OrbitRadius = 310;
+	var moon4Rotate = 0; //this gets incremented in update()
+	
+	//create orbit line geometry (STRETCH)
+	const line1RADIUS = 300;
+	const line1SEGMENTS = 64;
+	/*const lineGeo = new THREE.Geometry();
+	lineGeo.vertices.push(new THREE.Vector3( -300, 0, 0) );
+	lineGeo.vertices.push(new THREE.Vector3( 0, 300, 0) );
+	lineGeo.vertices.push(new THREE.Vector3( 300, 0, 0) ); */
+	
+	//create jupiter's material (uses the jupTexture when creating the material and carries it wherever it goes)
+	const jupMaterial = new THREE.MeshBasicMaterial( { map: jupTexture } );
+	
+	//create moon 1's material
+	const m1Material = new THREE.MeshBasicMaterial( { map: m1Texture } );
+	
+	//create moon 2's material
+	const m2Material = new THREE.MeshBasicMaterial( { map: m2Texture } );
+	
+	//create moon 3's material
+	const m3Material = new THREE.MeshBasicMaterial( { map: m3Texture } );
+	
+	//create moon 4's material
+	const m4Material = new THREE.MeshBasicMaterial( { map: m4Texture } );
+	
+	//create orbit line material (STRETCH)
+	const line1Material = new THREE.LineBasicMaterial({ color: 0x0000ff });
+	
+	//Create meshes with sphere geometry
+	//Jupiter
+	const jupiter = new THREE.Mesh(
+
+      new THREE.SphereGeometry(
+        jupRADIUS,
+        jupSEGMENTS,
+        jupRINGS), jupMaterial//Material goes here, but is created WITH the texture.
+		); 
+		
+	//Moon 1	
+	const moon1 = new THREE.Mesh(
+	
+	  new THREE.SphereGeometry(
+		m1RADIUS,
+		m1SEGMENTS,
+		m1RINGS), m1Material     //commented out because I don't have a texture yet. uncomment once you get a texture!
+		);
+		
+	//Moon 2
+	const moon2 = new THREE.Mesh(
+	
+		new THREE.SphereGeometry(
+			m2RADIUS,
+			m2SEGMENTS,
+			m2RINGS), m2Material
+			);
+	
+
+	//Moon 3
+	const moon3 = new THREE.Mesh(
+	
+		new THREE.SphereGeometry(
+			m3RADIUS,
+			m3SEGMENTS,
+			m3RINGS), m3Material
+			);
+		
+
+	//Moon 4
+	const moon4 = new THREE.Mesh(
+	
+		new THREE.SphereGeometry(
+			m4RADIUS,
+			m4SEGMENTS,
+			m4RINGS), m4Material
+			);
+				
+				
+	
+	//Orbit lines (STRETCH)
+	const line1 = new THREE.Line( line1RADIUS, line1SEGMENTS );
+	
+	//remove center vertex
+	//line1.vertices.shift();
+	
+	//add objects to scene
+	scene.add(jupiter);
+	scene.add(moon1);
+	scene.add(moon2);
+	scene.add(moon3);
+	scene.add(moon4);
+	scene.add( new THREE.Line(line1, line1Material) );
+	
+	//Adjust Jupiter's pitch for realism
+	jupiter.rotateZ(0.1);
+	
+	//create some light
+	const pointLight = new THREE.PointLight(0xFFFFF);
+	
+	//set light position
+	pointLight.position.x = 10;
+	pointLight.position.y = 50;
+	pointLight.position.z = 130;
+	
+	//add to the scene
+	scene.add(pointLight);
+	
+	function getCircleXLoc(theta, radius, xloc) 
+	{
+		return (Math.cos(theta) * radius) + xloc;
+	}
+	
+	function getCircleYLoc(theta, radius, yloc) 
+	{
+		return (Math.sin(theta) * radius) + yloc;
+	}
+	
+	
+	function update () 
+	{
+      // Draw!
+      renderer.render(scene, camera);
+
+      // Schedule the next frame.
+      requestAnimationFrame(update);
+	  
+	  //rotate objects (Is there a more performance-efficient way of doing this?)
+	  jupiter.rotateY(.00015);
+	  moon1.rotateY(.005); //this actually causes the moon itself to rotate
+	  moon1Rotate += 0.002; //moon1Rotate is used for orbit calculations. Adjust this number to increase/decrease orbit speeds
+	  
+	  moon2.rotateY(.005); //this actually causes the moon itself to rotate
+	  moon2Rotate += 0.0016; //moon1Rotate is used for orbit calculations
+	  
+	  moon3.rotateY(.005); //this actually causes the moon itself to rotate
+	  moon3Rotate += 0.003; //moon1Rotate is used for orbit calculations
+	  
+	  moon4.rotateY(.005); //this actually causes the moon itself to rotate
+	  moon4Rotate += 0.004; //moon1Rotate is used for orbit calculations
+	  
+	  //make the moons orbit Jupiter
+	  
+	  moon1.position.x = getCircleXLoc(moon1Rotate, m1OrbitRadius, 0);
+	  moon1.position.z = getCircleYLoc(moon1Rotate, m1OrbitRadius, 0);
+	  moon1.position.y = 0;
+	  moon1.position.applyEuler( new THREE.Euler( 0, 0, Math.PI/20, 'XYZ' ) ); //This allows me to add an angle to the orbit
+		
+	  
+	  moon2.position.x = getCircleXLoc(moon2Rotate, m2OrbitRadius, 0);
+	  moon2.position.z = getCircleYLoc(moon2Rotate, m2OrbitRadius, 0);
+	  moon2.position.y = 0;
+	  moon2.position.applyEuler( new THREE.Euler( 0, 0, Math.PI/40, 'XYZ' ) );
+	  
+	  moon3.position.x = getCircleXLoc(moon3Rotate, m3OrbitRadius, 0);
+	  moon3.position.z = getCircleYLoc(moon3Rotate, m3OrbitRadius, 0);
+	  moon3.position.y = 0;
+	  moon3.position.applyEuler( new THREE.Euler( 0, 0, Math.PI/60, 'XYZ' ) );
+	  
+	  moon4.position.x = getCircleXLoc(moon4Rotate, m4OrbitRadius, 0);
+	  moon4.position.z = getCircleYLoc(moon4Rotate, m4OrbitRadius, 0);
+	  moon4.position.y = 0;
+	  moon4.position.applyEuler( new THREE.Euler( 0, 0, 0, 'XYZ' ) );
+	  
+	  
+	  
+    }
+
+    // Schedule the first frame.
+    requestAnimationFrame(update);
+  </script>
+</body>
+</html>
