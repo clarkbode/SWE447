@@ -200,16 +200,16 @@
 	  //rotate objects (Is there a more performance-efficient way of doing this?)
 	  jupiter.rotateY(.00015);
 	  moon1.rotateY(.005); //this actually causes the moon itself to rotate
-	  moon1Rotate += 0.02; //moon1Rotate is used for orbit calculations. Adjust this number to increase/decrease orbit speeds
+	  moon1Rotate += 0.002; //moon1Rotate is used for orbit calculations. Adjust this number to increase/decrease orbit speeds
 	  
 	  moon2.rotateY(.005); //this actually causes the moon itself to rotate
-	  moon2Rotate += 0.016; //moon1Rotate is used for orbit calculations
+	  moon2Rotate += 0.0016; //moon1Rotate is used for orbit calculations
 	  
 	  moon3.rotateY(.005); //this actually causes the moon itself to rotate
-	  moon3Rotate += 0.012; //moon1Rotate is used for orbit calculations
+	  moon3Rotate += 0.003; //moon1Rotate is used for orbit calculations
 	  
 	  moon4.rotateY(.005); //this actually causes the moon itself to rotate
-	  moon4Rotate += 0.01; //moon1Rotate is used for orbit calculations
+	  moon4Rotate += 0.004; //moon1Rotate is used for orbit calculations
 	  
 	  //make the moons orbit Jupiter
 	  
@@ -222,17 +222,17 @@
 	  moon2.position.x = getCircleXLoc(moon2Rotate, m2OrbitRadius, 0);
 	  moon2.position.z = getCircleYLoc(moon2Rotate, m2OrbitRadius, 0);
 	  moon2.position.y = 0;
-	  moon2.position.applyEuler( new THREE.Euler( 0, 0, Math.PI/20, 'XYZ' ) );
+	  moon2.position.applyEuler( new THREE.Euler( 0, 0, Math.PI/40, 'XYZ' ) );
 	  
 	  moon3.position.x = getCircleXLoc(moon3Rotate, m3OrbitRadius, 0);
 	  moon3.position.z = getCircleYLoc(moon3Rotate, m3OrbitRadius, 0);
 	  moon3.position.y = 0;
-	  moon3.position.applyEuler( new THREE.Euler( 0, 0, Math.PI/20, 'XYZ' ) );
+	  moon3.position.applyEuler( new THREE.Euler( 0, 0, Math.PI/60, 'XYZ' ) );
 	  
 	  moon4.position.x = getCircleXLoc(moon4Rotate, m4OrbitRadius, 0);
 	  moon4.position.z = getCircleYLoc(moon4Rotate, m4OrbitRadius, 0);
 	  moon4.position.y = 0;
-	  moon4.position.applyEuler( new THREE.Euler( 0, 0, Math.PI/20, 'XYZ' ) );
+	  moon4.position.applyEuler( new THREE.Euler( 0, 0, 0, 'XYZ' ) );
 	  
 	  
 	  
